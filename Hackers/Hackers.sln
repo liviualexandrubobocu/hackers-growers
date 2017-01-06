@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackers", "Hackers.csproj", "{421D905E-0B49-1BAC-7DCC-310E04D60DCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackers.Editor", "Hackers.Editor.csproj", "{99FE0F57-BDFB-1050-757F-6D07D283FA67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{421D905E-0B49-1BAC-7DCC-310E04D60DCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{421D905E-0B49-1BAC-7DCC-310E04D60DCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{421D905E-0B49-1BAC-7DCC-310E04D60DCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{421D905E-0B49-1BAC-7DCC-310E04D60DCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99FE0F57-BDFB-1050-757F-6D07D283FA67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99FE0F57-BDFB-1050-757F-6D07D283FA67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99FE0F57-BDFB-1050-757F-6D07D283FA67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99FE0F57-BDFB-1050-757F-6D07D283FA67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

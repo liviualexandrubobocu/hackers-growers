@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Hackers.unity
+  isLoaded: 1
+  isActive: 1

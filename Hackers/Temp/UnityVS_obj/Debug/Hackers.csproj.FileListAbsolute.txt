@@ -1,0 +1,17 @@
+F:\Work\Unity\Hackers\Temp\UnityVS_obj\Debug\Hackers.csprojResolveAssemblyReference.cache
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEditor.dll
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Common.dll
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Xcode.dll
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEngine.dll
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEngine.Networking.dll
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEngine.xml
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEngine.Networking.xml
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEditor.xml
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Xcode.xml
+F:\Work\Unity\Hackers\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Common.xml
+F:\Work\Unity\Hackers\Temp\UnityVS_obj\Debug\Assembly-CSharp.dll
+F:\Work\Unity\Hackers\Temp\UnityVS_obj\Debug\Assembly-CSharp.pdb
