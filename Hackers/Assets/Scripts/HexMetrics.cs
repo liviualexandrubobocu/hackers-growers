@@ -7,6 +7,14 @@ public static class HexMetrics {
 
     public const float innerRadius = outerRadius * 0.866025404f;
 
+    public static Vector3[] squareCorners =
+    {
+        new Vector3(-innerRadius, 0f, -outerRadius),  // lower left
+        new Vector3(-innerRadius, 0f, outerRadius), // upper left
+        new Vector3(innerRadius, 0f, outerRadius), // upper right
+        new Vector3(innerRadius, 0f, -outerRadius) // lover right
+    };
+
     public static Vector3[] corners = {
        new Vector3(0f, 0f, outerRadius),
         new Vector3(innerRadius, 0f, 0.5f * outerRadius),

@@ -4,24 +4,35 @@ using UnityEngine.UI;
 
 public class HexGrid : MonoBehaviour {
 
+    public HexMapEditor mapEditor;
+
+
+    public GameObject tileMenu;
+    public GameObject infoPanel;
+
     public Color defaultColor = Color.white;
     public Color touchedColor = Color.magenta;
+    public Color buildColor = Color.cyan;
+    public Color upgradeColor = Color.red;
 
     public int width = 6;
     public int height = 6;
 
     public HexCell cellPrefab;
-
     public Text cellLabelPrefab;
 
     public Vector3 menuOffset;
 
     public Transform menuPos;
 
+    public Animator menuAnimator;
+
     Canvas gridCanvas;
     HexMesh hexMesh;
 
     HexCell[] cells;
+
+    int selectedIndex;
 
     void Awake()
     {
@@ -37,11 +48,21 @@ public class HexGrid : MonoBehaviour {
                 CreateCell(x, z, i++);
             }
         }
+
+        HideMenu(false);
+        infoPanel.SetActive(false);
     }
 
     void Start()
     {
         hexMesh.Triangulate(cells);
+    }
+
+    void HideMenu(bool ignoreInput)
+    {
+        mapEditor.ignoreNextInput = ignoreInput;
+        tileMenu.SetActive(false);
+        selectedIndex = -1;
     }
 
     void CreateCell(int x, int z, int i)
@@ -70,14 +91,75 @@ public class HexGrid : MonoBehaviour {
         label.text = cell.coordinates.ToStringOnSeparateLines();
     }
 
+    public void SelectCell(Vector3 position)
+    {
+        position = transform.InverseTransformPoint(position);
+        HexCoordinates coordinates = HexCoordinates.FromPosition(position);
+        int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+
+        if (index != selectedIndex && index < cells.Length)
+        {
+            selectedIndex = index;
+            HexCell cell = cells[index];
+            //cell.color = color;
+            //hexMesh.Triangulate(cells);
+
+            RectTransform rTrans = menuPos as RectTransform;
+            rTrans.anchoredPosition3D = new Vector3(cell.transform.position.x + menuOffset.x, cell.transform.position.z + menuOffset.y, menuOffset.z);
+            rTrans.SetAsLastSibling();
+            tileMenu.SetActive(true);
+            menuAnimator.Play("Menu", -1, 0f);
+        }
+        else
+        {
+            HideMenu(false);
+        }
+    }
+
+    public void Build()
+    {
+        HexCell cell = cells[selectedIndex];
+        cell.color = buildColor;
+        hexMesh.Triangulate(cells);
+        HideMenu(true);
+    }
+
+    public void ClearTile()
+    {
+        HexCell cell = cells[selectedIndex];
+        cell.color = defaultColor;
+        hexMesh.Triangulate(cells);
+        HideMenu(true);
+    }
+
+    public void Upgrade()
+    {
+        HexCell cell = cells[selectedIndex];
+        cell.color = touchedColor;
+        hexMesh.Triangulate(cells);
+        HideMenu(true);
+    }
+
+    public void ShowInfo()
+    {
+        infoPanel.SetActive(true);
+        HideMenu(true);
+    }
+
+    public void HideInfo()
+    {
+        infoPanel.SetActive(false);
+        HideMenu(true);
+    }
+
     public void ColorCell(Vector3 position, Color color)
     {
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
         int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
         HexCell cell = cells[index];
-        cell.color = color;
-        hexMesh.Triangulate(cells);
+        //cell.color = color;
+        //hexMesh.Triangulate(cells);
 
         RectTransform rTrans = menuPos as RectTransform;
         rTrans.anchoredPosition3D = new Vector3(cell.transform.position.x + menuOffset.x, cell.transform.position.z + menuOffset.y, menuOffset.z);
