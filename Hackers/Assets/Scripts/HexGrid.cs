@@ -18,6 +18,8 @@ public class HexGrid : MonoBehaviour {
     public int width = 6;
     public int height = 6;
 
+	public ContentGenerator contentGenerator;
+
     public HexCell cellPrefab;
     public Text cellLabelPrefab;
 
@@ -34,11 +36,11 @@ public class HexGrid : MonoBehaviour {
 
     int selectedIndex;
 
+
     void Awake()
     {
         gridCanvas = GetComponentInChildren<Canvas>();
         hexMesh = GetComponentInChildren<HexMesh>();
-        
         cells = new HexCell[height * width];
 
         for (int z = 0, i = 0; z < height; z++)
@@ -48,6 +50,8 @@ public class HexGrid : MonoBehaviour {
                 CreateCell(x, z, i++);
             }
         }
+
+		contentGenerator.generateRandomUnits(0, cells);
 
         HideMenu(false);
         infoPanel.SetActive(false);
@@ -89,6 +93,9 @@ public class HexGrid : MonoBehaviour {
         label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
         label.text = cell.coordinates.ToStringOnSeparateLines();
+
+		//initialize cell population
+		cell.population = 0;
     }
 
     public void SelectCell(Vector3 position)

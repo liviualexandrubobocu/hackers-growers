@@ -6,9 +6,12 @@ public class HexCell : MonoBehaviour {
     public HexCoordinates coordinates;
     public Color color;
 
-    //public Terrain terrain;
-    //public Unit unit;
-    //public Building building;
+	public int population;
+
+    public Terrain terrain;
+    public LifeForm unit;
+    public Building building;
+	public Player owner;
     
     // Use this for initialization
     void Start () {
