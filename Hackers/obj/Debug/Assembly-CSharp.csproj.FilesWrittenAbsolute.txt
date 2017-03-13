@@ -19,3 +19,5 @@
 /Users/User/Desktop/hackers-growers/Hackers/Temp/bin/Debug/Assembly-CSharp.dll
 /Users/User/Desktop/hackers-growers/Hackers/obj/Debug/Assembly-CSharp.dll
 /Users/User/Desktop/hackers-growers/Hackers/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/User/Desktop/hackers-growers/Hackers/Temp/bin/Debug/UnityEngine.Purchasing.dll
+/Users/User/Desktop/hackers-growers/Hackers/Temp/bin/Debug/UnityEngine.Advertisements.dll

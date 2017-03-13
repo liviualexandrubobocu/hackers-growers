@@ -42,7 +42,7 @@ public class HexGrid : MonoBehaviour {
         gridCanvas = GetComponentInChildren<Canvas>();
         hexMesh = GetComponentInChildren<HexMesh>();
         cells = new HexCell[height * width];
-
+		contentGenerator = new ContentGenerator ();
         for (int z = 0, i = 0; z < height; z++)
         {
             for (int x = 0; x < width; x++)

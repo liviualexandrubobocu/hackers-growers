@@ -11,7 +11,7 @@ public class HexCell : MonoBehaviour {
     public Terrain terrain;
     public LifeForm unit;
     public Building building;
-	public Player owner;
+	public int owner;
     
     // Use this for initialization
     void Start () {
