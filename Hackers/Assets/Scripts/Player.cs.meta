@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
 guid: b74095be48b0e4e2680fc37d2e2db9d0
 timeCreated: 1489008986
+=======
+guid: e0e69a9a91db6d241b877171e3820f44
+timeCreated: 1488620367
+>>>>>>> Stashed changes
 licenseType: Free
 MonoImporter:
   serializedVersion: 2

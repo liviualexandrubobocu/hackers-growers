@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class HexGrid : MonoBehaviour {
 
     public HexMapEditor mapEditor;
-
+    public Image HexCellOutline;
 
     public GameObject tileMenu;
     public GameObject infoPanel;
@@ -34,7 +35,10 @@ public class HexGrid : MonoBehaviour {
 
     HexCell[] cells;
 
-    int selectedIndex;
+    List<Image> selectionPath;
+
+    int selectedIndex,
+        selectionMaxLength = 2;
 
 
     void Awake()
@@ -50,6 +54,8 @@ public class HexGrid : MonoBehaviour {
                 CreateCell(x, z, i++);
             }
         }
+
+        selectionPath = new List<Image>();
 
 		contentGenerator.generateRandomUnits(0, cells);
 
@@ -98,12 +104,17 @@ public class HexGrid : MonoBehaviour {
 		cell.population = 0;
     }
 
-    public void SelectCell(Vector3 position)
+    int GetCellIndex(Vector3 position)
     {
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
         int index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+        return index;
+    }
 
+    public void SelectCell(Vector3 position, bool fromPath)
+    {
+        int index = GetCellIndex(position);
         if (index != selectedIndex && index < cells.Length)
         {
             selectedIndex = index;
@@ -116,18 +127,61 @@ public class HexGrid : MonoBehaviour {
             rTrans.SetAsLastSibling();
             tileMenu.SetActive(true);
             menuAnimator.Play("Menu", -1, 0f);
+
+            if (!fromPath)
+            {
+                RemoveSelection();
+            }
         }
         else
         {
             HideMenu(false);
+            RemoveSelection();
         }
     }
+
+    public void SelectOutline(Vector3 position, bool isCurrent)
+    {
+        if (!isCurrent)
+        {
+            HideMenu(false);
+            RemoveSelection();
+        }
+
+        int index = GetCellIndex(position);
+        if (index != selectedIndex && index < cells.Length)
+        {
+            HexCell cell = cells[index];
+            Image selOutline = Instantiate<Image>(HexCellOutline);
+            selOutline.transform.SetParent(gridCanvas.transform, false);
+            if (selectionPath.Count == selectionMaxLength)
+            {
+                Destroy(selectionPath[selectionMaxLength - 1].gameObject);
+                selectionPath.RemoveAt(selectionMaxLength - 1);
+            }
+            selectionPath.Add(selOutline);
+            RectTransform rTrans = selOutline.rectTransform;
+            rTrans.anchoredPosition3D = new Vector3(cell.transform.position.x + menuOffset.x, cell.transform.position.z + menuOffset.y, menuOffset.z);
+            rTrans.SetAsLastSibling();
+        }
+    }
+
+    public void RemoveSelection()
+    {
+        foreach (Image tile in selectionPath)
+        {
+            Destroy(tile.gameObject);
+        }
+        selectionPath.Clear();
+    }
+
 
     public void Build()
     {
         HexCell cell = cells[selectedIndex];
         cell.color = buildColor;
         hexMesh.Triangulate(cells);
+        RemoveSelection();
         HideMenu(true);
     }
 
@@ -136,6 +190,7 @@ public class HexGrid : MonoBehaviour {
         HexCell cell = cells[selectedIndex];
         cell.color = defaultColor;
         hexMesh.Triangulate(cells);
+        RemoveSelection();
         HideMenu(true);
     }
 
@@ -144,6 +199,7 @@ public class HexGrid : MonoBehaviour {
         HexCell cell = cells[selectedIndex];
         cell.color = touchedColor;
         hexMesh.Triangulate(cells);
+        RemoveSelection();
         HideMenu(true);
     }
 

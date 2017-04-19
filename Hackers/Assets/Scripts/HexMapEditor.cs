@@ -11,7 +11,8 @@ public class HexMapEditor : MonoBehaviour
 
     public HexGrid hexGrid;
 
-    public bool ignoreNextInput;
+    public bool ignoreNextInput,
+                selecting;
 
     public Transform cameraTarget;
 
@@ -25,6 +26,7 @@ public class HexMapEditor : MonoBehaviour
     {
         SelectColor(0);
         ignoreNextInput = false;
+        selecting = false;
         CreateBounds();
     }
 
@@ -84,16 +86,37 @@ public class HexMapEditor : MonoBehaviour
 
     void Update()
     {
+        //tile interaction
         if (Input.GetMouseButtonUp(0))
         {
             if (!ignoreNextInput)
             {
-                HandleInput();
+                HandleInput("menu");
             }
             else
             {
                 ignoreNextInput = false;
             }
+        }
+
+        //quick actions
+        if (Input.GetMouseButton(1))
+        {
+            if (!ignoreNextInput)
+            {
+                if (!selecting)
+                {
+                    hexGrid.RemoveSelection();
+                }
+                HandleInput("select");
+                selecting = true;
+            }
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            selecting = false;
+            HandleInput("menuselect");
         }
 
         //camera movement
@@ -117,6 +140,7 @@ public class HexMapEditor : MonoBehaviour
             }
         }
 
+
         var zoom = Input.GetAxis("Mouse ScrollWheel");
         if (zoom != 0)
         {
@@ -137,7 +161,7 @@ public class HexMapEditor : MonoBehaviour
         }
     }
 
-    void HandleInput()
+    void HandleInput(string type)
     {
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -145,7 +169,18 @@ public class HexMapEditor : MonoBehaviour
         if (Physics.Raycast(inputRay, out hit))
         {
             //hexGrid.ColorCell(hit.point, activeColor);
-            hexGrid.SelectCell(hit.point);
+            switch (type)
+            {
+                case "menu":
+                    hexGrid.SelectCell(hit.point, false);
+                    break;
+                case "select":
+                    hexGrid.SelectOutline(hit.point, selecting);
+                    break;
+                case "menuselect":
+                    hexGrid.SelectCell(hit.point, true);
+                    break;
+            }
         }
     }
 
