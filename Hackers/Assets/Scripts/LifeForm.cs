@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class LifeForm: MonoBehaviour
+public class LifeForm
 {
 	private double lifeSpan { get; set; }
 	private double growingRate { get; set; }
@@ -10,7 +10,9 @@ public class LifeForm: MonoBehaviour
 	private double defensePower { get; set; }
 	private double mutationTime { get; set; }
 
-	public enum Type
+    int actionRadius { get; set; }
+
+	public enum LifeType
 	{
 		CarbonBased,
 		SilliconBased,
@@ -55,6 +57,16 @@ public class LifeForm: MonoBehaviour
 		//~LifeForm();
 
 	}
+
+    public int getRadius()
+    {
+        return actionRadius;
+    }
+
+    public void setRadius(int val)
+    {
+        actionRadius = val;
+    }
 }
 
 

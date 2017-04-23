@@ -27,7 +27,7 @@ public class HexMesh : MonoBehaviour
         colors = new List<Color>();
     }
 
-    public void Triangulate(HexCell[] cells)
+    public void Triangulate(HexCell[][] cells)
     {
         hexMesh.Clear();
         vertices.Clear();
@@ -37,7 +37,10 @@ public class HexMesh : MonoBehaviour
         colors.Clear();
         for (int i = 0; i < cells.Length; i++)
         {
-            Triangulate(cells[i]);
+            for (int j = 0; j < cells[i].Length; j++)
+            {
+                Triangulate(cells[i][j]);
+            }
         }
         hexMesh.vertices = vertices.ToArray();
         hexMesh.triangles = triangles.ToArray();

@@ -22,6 +22,9 @@ public class HexMapEditor : MonoBehaviour
 
     Vector3 startPos;
 
+    Ray ray;
+    RaycastHit hit;
+
     void Awake()
     {
         SelectColor(0);
@@ -127,16 +130,25 @@ public class HexMapEditor : MonoBehaviour
         if (Input.GetMouseButton(2))
         {
             Vector3 delta = (Input.mousePosition - startPos) / (camSensitivity * 5);
-            Debug.Log(Input.mousePosition.ToString() + " " + startPos.ToString());
+            //Debug.Log(Input.mousePosition.ToString() + " " + startPos.ToString());
 
             if (!delta.Equals(Vector3.zero))
             {
-                Debug.Log(delta.x + "," + delta.y + "," + delta.z);
+                //Debug.Log(delta.x + "," + delta.y + "," + delta.z);
                 cameraTarget.Rotate(Vector3.right, -80.0f);
                 cameraTarget.Translate(-delta.x, 0.0f, -delta.y);
                 AdjustToEdge();
                 cameraTarget.Rotate(Vector3.right, 80.0f);
                 //cameraTarget.transform.position = new Vector3(-delta.x, 0.0f, -delta.y, Space.Self);
+            }
+        }
+
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (selecting == false)
+            {
+                hexGrid.SelectOutline(hit.point);
             }
         }
 

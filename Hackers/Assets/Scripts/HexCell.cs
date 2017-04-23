@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class HexCell : MonoBehaviour {
+public class HexCell : MonoBehaviour{
 
     public HexCoordinates coordinates;
     public Color color;
@@ -22,4 +24,15 @@ public class HexCell : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public int GetActionRadius()
+    {
+        return unit.getRadius();
+    }
+
+    public void SetActionRadius(int r)
+    {
+        unit.setRadius(r);
+    }
+
 }
