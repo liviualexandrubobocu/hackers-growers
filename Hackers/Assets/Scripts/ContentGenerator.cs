@@ -1,9 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using UnityEngine;
 	
 public class ContentGenerator: MonoBehaviour {
+
+	private const int NUMBER_OF_CELLS_PER_PLAYER = 4;
+
+	public HexGrid grid;
+
+	public struct OwnerStartingPosition {
+		public int x;
+		public int y;
+		public int ownerNumber;
+	}
+
+	public struct EmptyPositions {
+		public bool topLeft;
+		public bool topRight;
+		public bool bottomLeft;
+		public bool bottomRight;
+	}
 
 	public struct Neighbours{
 		public HexCell topRight;
@@ -25,8 +43,10 @@ public class ContentGenerator: MonoBehaviour {
 	}
 
 	public const int NUMBER_OF_CELLS_PER_ROW = 10;
+	public const int NUMBER_OF_CELLS_OWNED_PER_ROW_BY_PLAYER = 4;
 	public const int SELECTED_POPULATION_PER_RACE = 30;
 	public const int NUMBER_OF_MAX_UNITS = 4;
+	public const int NUMBER_OF_UNITS_BETWEEN_PLAYERS = 2;
 
 	//method that receives the position of a hex cell and returns its neighbours
 	Neighbours setInitialNeighbourPositions(HexCell[][] cellMatrix, int i, int j){
@@ -39,42 +59,84 @@ public class ContentGenerator: MonoBehaviour {
 		neighbours.bottomLeft = cellMatrix[i+1][j];
 		return neighbours;
 	}
+		
 
-	//assign quadrant
-	public int assignQuadrant(int iter, int width, int height){
-		bool isInfirstQuadrant = (iter < ((width - 2)) / 2) && (iter < (height-2) / 2);
-		bool isInSecondQuadrant = (iter > ((width - 2)) / 2) && (iter < (height - 2) / 2);
-		bool isInThirdQuadrant = (iter < ((width - 2)) / 2) && (iter > (height - 2) / 2);
-		bool isInForthQuadrant = (iter > ((width - 2)) / 2) && (iter > (height - 2) / 2);
-
-		if(isInfirstQuadrant) return 1;
-		else if(isInSecondQuadrant) return 2;
-		else if(isInThirdQuadrant) return 3;
-		else if(isInForthQuadrant) return 4;
-
-		return 0;
+	//add owner to terrain
+	public void occupyTerrain(int ownerNumber, HexCell[][] cellMatrix, int startingPositionX, int startingPositionY){
+		int length = Convert.ToInt32(Math.Sqrt(cellMatrix.Length));
+		for (int i = startingPositionX; i < length; i++) {
+			for (int j = 0; startingPositionY < length; j++) {
+				if(i == NUMBER_OF_CELLS_PER_PLAYER && j == NUMBER_OF_CELLS_PER_PLAYER){
+					return;
+				}
+				cellMatrix[i][j].owner = ownerNumber;
+			}
+		}
 	}
+
+	//see left quadrants to add players
+	public List<OwnerStartingPosition> getRemainingStartingPositions(int width, int height, HexCell[][] cellMatrix){
+		List<OwnerStartingPosition> remainingStartingPoints = new List<OwnerStartingPosition>();
+		int i = 0;
+		int j = 0;
+		while(i <= height){
+			bool notOwnedCondition = (cellMatrix[i][j] != null 
+										&& cellMatrix[i][j].owner == 0 
+										&& cellMatrix[i + NUMBER_OF_UNITS_BETWEEN_PLAYERS + 1][j + NUMBER_OF_UNITS_BETWEEN_PLAYERS + 1] != null 
+										&& cellMatrix[i + NUMBER_OF_UNITS_BETWEEN_PLAYERS + 1][j + NUMBER_OF_UNITS_BETWEEN_PLAYERS + 1].owner == 0);
+			if (notOwnedCondition) {
+				OwnerStartingPosition ownerStartingPosition = new OwnerStartingPosition();
+				ownerStartingPosition.x = i;
+				ownerStartingPosition.y = j;
+				remainingStartingPoints.Add(ownerStartingPosition);
+				j += NUMBER_OF_CELLS_OWNED_PER_ROW_BY_PLAYER + NUMBER_OF_UNITS_BETWEEN_PLAYERS;
+
+			} else {
+				j = 0;
+				i += NUMBER_OF_CELLS_OWNED_PER_ROW_BY_PLAYER + NUMBER_OF_UNITS_BETWEEN_PLAYERS;
+			}
+		}
+		foreach(OwnerStartingPosition remainingStartingPoint in remainingStartingPoints){
+			Debug.Log ("x = " + remainingStartingPoint.x);
+			Debug.Log ("y = " + remainingStartingPoint.y);
+		}
+		return remainingStartingPoints;
+	}
+
+	//check if logged positions are 
+	public bool inNexusPosition(int i, int j, int length){
+		return (
+			(i == 0 && j == 0)
+			|| (i == 0 && j == length - 1)
+			|| (i == length - 1 && j == 0) 
+			|| (i == length - 1 && j == length - 1)
+		);
+	}
+
 
 	//generate terrain algorithm
 	public void generateTerrain(HexCell[][] cellMatrix){
 		int[] owners = new int[4] { 1, 2, 3, 4 };
-		int width = Convert.ToInt32(Math.Sqrt(cellMatrix.Length));
+		int width = Convert.ToInt32(cellMatrix.Length);
 		int height = width;
-		for (int i = 0; i <= width; i++){
-			for (int j = 0; j <= height; j++) {
-				int quadrant = this.assignQuadrant (i, width, height);
-				cellMatrix[i][j].owner = owners[quadrant];
-			}	
-		}
-	}
 
-	//generate on random
-	//use backtrack
-	//set flag
-	public void generateTerrainRandom(HexCell[] cellMatrix){
+		foreach(int owner in owners){
+			List<OwnerStartingPosition> remainingStartingPoints = this.getRemainingStartingPositions (width, height, cellMatrix);
+			System.Random random = new System.Random();
+			OwnerStartingPosition chosenStartingPosition = new OwnerStartingPosition();
+			int chosenPosition = random.Next (0, remainingStartingPoints.Count);
+			int i = 0;
+			foreach (OwnerStartingPosition position in remainingStartingPoints){
+				if (i == chosenPosition) {
+					chosenStartingPosition = position;
+				}
+				i++;	
+			}
+			this.occupyTerrain(owner, cellMatrix, chosenStartingPosition.x + NUMBER_OF_CELLS_PER_PLAYER + 2, chosenStartingPosition.y);
+			
+		}
 		
 	}
-
 
 	//Set a set of numbers { 0..3 }
 	//For Each position in the terrain 
@@ -114,7 +176,7 @@ public class ContentGenerator: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		this.generateTerrain(grid.cells);
 
 	}
 

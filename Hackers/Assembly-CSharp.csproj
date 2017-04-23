@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\HexMesh.cs" />
      <Compile Include="Assets\Scripts\HexMetrics.cs" />
      <Compile Include="Assets\Scripts\LifeForm.cs" />
+     <Compile Include="Assets\Scripts\Misc.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Race.cs" />
      <Compile Include="Assets\Scripts\Terrain.cs" />

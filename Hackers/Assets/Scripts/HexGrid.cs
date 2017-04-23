@@ -19,8 +19,8 @@ public class HexGrid : MonoBehaviour
     public Color buildColor = Color.cyan;
     public Color upgradeColor = Color.red;
 
-    public int width = 6;
-    public int height = 6;
+    public int width = 100;
+    public int height = 100;
 
     public ContentGenerator contentGenerator;
 
@@ -37,7 +37,7 @@ public class HexGrid : MonoBehaviour
     Canvas gridCanvas;
     HexMesh hexMesh;
 
-    HexCell[][] cells;
+    public HexCell[][] cells;
     
     List<Image> selectionPath, selectionRadius;
     Image highlightOutline;
@@ -66,7 +66,7 @@ public class HexGrid : MonoBehaviour
         {
             cells[i] = new HexCell[width];
         }
-        contentGenerator = new ContentGenerator();
+
         for (int z = 0; z < height; z++)
         {
             for (int x = 0; x < width; x++)

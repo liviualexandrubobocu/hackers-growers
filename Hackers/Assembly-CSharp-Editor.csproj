@@ -48,6 +48,9 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Editor\HexCoordinatesDrawer.cs" />
      <None Include="Assets\Shaders\VertexColor.shader" />
+ <Reference Include="Assembly-UnityScript">
+ <HintPath>/Users/User/Desktop/hackers-growers/Hackers/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Purchasing">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
@@ -111,6 +114,10 @@
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/macstandalonesupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{F96CCE63-4AF1-990B-F4CA-3DDFE502D372}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
