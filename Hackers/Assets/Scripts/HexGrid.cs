@@ -19,8 +19,8 @@ public class HexGrid : MonoBehaviour
     public Color buildColor = Color.cyan;
     public Color upgradeColor = Color.red;
 
-    public int width = 100;
-    public int height = 100;
+    public int width = 6;
+    public int height = 6;
 
     public ContentGenerator contentGenerator;
 

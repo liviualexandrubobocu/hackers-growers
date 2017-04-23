@@ -79,10 +79,11 @@ public class ContentGenerator: MonoBehaviour {
 		List<OwnerStartingPosition> remainingStartingPoints = new List<OwnerStartingPosition>();
 		int i = 0;
 		int j = 0;
-		while(i <= height){
-			bool notOwnedCondition = (cellMatrix[i][j] != null 
+		while(i < height){
+			bool notOwnedCondition = ((j < width)
 										&& cellMatrix[i][j].owner == 0 
-										&& cellMatrix[i + NUMBER_OF_UNITS_BETWEEN_PLAYERS + 1][j + NUMBER_OF_UNITS_BETWEEN_PLAYERS + 1] != null 
+										&& (i + NUMBER_OF_UNITS_BETWEEN_PLAYERS + 1) < height 
+										&& (j + NUMBER_OF_UNITS_BETWEEN_PLAYERS + 1 < width) 
 										&& cellMatrix[i + NUMBER_OF_UNITS_BETWEEN_PLAYERS + 1][j + NUMBER_OF_UNITS_BETWEEN_PLAYERS + 1].owner == 0);
 			if (notOwnedCondition) {
 				OwnerStartingPosition ownerStartingPosition = new OwnerStartingPosition();
@@ -96,10 +97,10 @@ public class ContentGenerator: MonoBehaviour {
 				i += NUMBER_OF_CELLS_OWNED_PER_ROW_BY_PLAYER + NUMBER_OF_UNITS_BETWEEN_PLAYERS;
 			}
 		}
-		foreach(OwnerStartingPosition remainingStartingPoint in remainingStartingPoints){
-			Debug.Log ("x = " + remainingStartingPoint.x);
-			Debug.Log ("y = " + remainingStartingPoint.y);
-		}
+//		foreach(OwnerStartingPosition remainingStartingPoint in remainingStartingPoints){
+//			Debug.Log ("x = " + remainingStartingPoint.x);
+//			Debug.Log ("y = " + remainingStartingPoint.y);
+//		}
 		return remainingStartingPoints;
 	}
 
@@ -133,7 +134,11 @@ public class ContentGenerator: MonoBehaviour {
 				i++;	
 			}
 			this.occupyTerrain(owner, cellMatrix, chosenStartingPosition.x + NUMBER_OF_CELLS_PER_PLAYER + 2, chosenStartingPosition.y);
-			
+			for(int k = 0; k < 16; k++){
+				for(int j = 0; j < 16; j++){
+					Debug.Log("cellMatrix[" + k + "][" + j + "].owner = " + cellMatrix[k][j].owner); 
+				}	
+			}
 		}
 		
 	}
