@@ -121,10 +121,16 @@ public class ContentGenerator: MonoBehaviour {
 		int height = width;
 
 		foreach(int owner in owners){
+			int totalPopulation = 0;
+			int chosenPosition = 0;
 			List<OwnerStartingPosition> remainingStartingPoints = this.getRemainingStartingPositions (width, height, cellMatrix);
 			System.Random random = new System.Random();
 			OwnerStartingPosition chosenStartingPosition = new OwnerStartingPosition();
-			int chosenPosition = random.Next (0, remainingStartingPoints.Count);
+			if (remainingStartingPoints.Count > 1) {
+				chosenPosition = random.Next(1, remainingStartingPoints.Count);
+			}
+			else chosenPosition = 0;
+
 			int i = 0;
 			foreach (OwnerStartingPosition position in remainingStartingPoints){
 				if (i == chosenPosition) {
@@ -133,8 +139,9 @@ public class ContentGenerator: MonoBehaviour {
 				i++;	
 			}
 			this.occupyTerrain(owner, ref cellMatrix, chosenStartingPosition.x, chosenStartingPosition.y);
-
+			this.generateRandomUnits(ref totalPopulation, ref cellMatrix, chosenStartingPosition);
 		}
+		Debug.Log("<<<<<< OWNERSHIP >>>>>>");
 		for(int k = 0; k < 15; k++){
 			string matrix = "";
 			for(int j = 0; j < 15; j++){
@@ -142,7 +149,14 @@ public class ContentGenerator: MonoBehaviour {
 			}	
 			Debug.Log (matrix);
 		}
-		
+		Debug.Log("<<<<<< POPULATION >>>>>>");
+		for(int i = 0; i < 15; i++) {
+			string population = "";
+			for (int j = 0; j < 15; j++) {
+				population += " " + cellMatrix[i][j].population + " ";
+			}
+			Debug.Log (population);
+		}
 	}
 
 	//Set a set of numbers { 0..3 }
@@ -159,24 +173,27 @@ public class ContentGenerator: MonoBehaviour {
 
 
 	//random selection and recreate total
-	public int generatePopulation(int totalPopulation, HexCell[] cellMatrix){
-		for (int i = 0; i <= cellMatrix.Length; i++){
-			System.Random random = new System.Random();
-			int population = (cellMatrix[i].population == 0) ? random.Next(1,NUMBER_OF_MAX_UNITS) : (NUMBER_OF_MAX_UNITS - cellMatrix[i].population);
-			cellMatrix[i].population += population;
-			totalPopulation += population;
+	public void generatePopulation(ref int totalPopulation, ref HexCell[][] cellMatrix, OwnerStartingPosition ownerStartingPosition){
+		for (int i = ownerStartingPosition.x; i < ownerStartingPosition.x + NUMBER_OF_CELLS_PER_PLAYER; i++){
+			for (int j = ownerStartingPosition.y; j < ownerStartingPosition.y + NUMBER_OF_CELLS_PER_PLAYER; j++) {
+				if (totalPopulation >= SELECTED_POPULATION_PER_RACE) {
+					break;	
+				}
+				System.Random random = new System.Random();
+				int population = (cellMatrix[i][j].population == 0) ? random.Next(0, NUMBER_OF_MAX_UNITS) : random.Next(0, (NUMBER_OF_MAX_UNITS - cellMatrix[i][j].population));
+				cellMatrix[i][j].population += population;
+				totalPopulation += population;
+			}
 		}
-
-		return totalPopulation;
 	}
 
 
 	//recursive random generation
 
-	public void generateRandomUnits(int totalPopulation, HexCell[] cellMatrix){
-		int grownPopulation = this.generatePopulation(totalPopulation, cellMatrix);
-		if (grownPopulation < SELECTED_POPULATION_PER_RACE) {
-			this.generateRandomUnits(grownPopulation, cellMatrix);
+public void generateRandomUnits(ref int totalPopulation, ref HexCell[][] cellMatrix, OwnerStartingPosition ownerStartingPosition){
+	this.generatePopulation(ref totalPopulation, ref cellMatrix, ownerStartingPosition);
+		if (totalPopulation < SELECTED_POPULATION_PER_RACE) {
+			this.generateRandomUnits(ref totalPopulation, ref cellMatrix, ownerStartingPosition);
 		}
 	}
 
@@ -184,7 +201,6 @@ public class ContentGenerator: MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		this.generateTerrain(grid.cells);
-
 	}
 
 	// Update is called once per frame
