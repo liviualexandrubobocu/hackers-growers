@@ -6,7 +6,7 @@ using UnityEngine;
 	
 public class ContentGenerator: MonoBehaviour {
 
-	private const int NUMBER_OF_CELLS_PER_PLAYER = 4;
+	private const int NUMBER_OF_CELLS_PER_PLAYER = 6;
 
 	public HexGrid grid;
 
@@ -43,10 +43,10 @@ public class ContentGenerator: MonoBehaviour {
 	}
 
 	public const int NUMBER_OF_CELLS_PER_ROW = 10;
-	public const int NUMBER_OF_CELLS_OWNED_PER_ROW_BY_PLAYER = 4;
+	public const int NUMBER_OF_CELLS_OWNED_PER_ROW_BY_PLAYER = 6;
 	public const int SELECTED_POPULATION_PER_RACE = 30;
 	public const int NUMBER_OF_MAX_UNITS = 4;
-	public const int NUMBER_OF_UNITS_BETWEEN_PLAYERS = 2;
+	public const int NUMBER_OF_UNITS_BETWEEN_PLAYERS = 3;
 
 	//method that receives the position of a hex cell and returns its neighbours
 	Neighbours setInitialNeighbourPositions(HexCell[][] cellMatrix, int i, int j){
@@ -62,14 +62,13 @@ public class ContentGenerator: MonoBehaviour {
 		
 
 	//add owner to terrain
-	public void occupyTerrain(int ownerNumber, HexCell[][] cellMatrix, int startingPositionX, int startingPositionY){
-		int length = Convert.ToInt32(Math.Sqrt(cellMatrix.Length));
-		for (int i = startingPositionX; i < length; i++) {
-			for (int j = 0; startingPositionY < length; j++) {
-				if(i == NUMBER_OF_CELLS_PER_PLAYER && j == NUMBER_OF_CELLS_PER_PLAYER){
-					return;
+	public void occupyTerrain(int ownerNumber, ref HexCell[][] cellMatrix, int startingPositionX, int startingPositionY){
+		for (int i = startingPositionX; i < startingPositionX + NUMBER_OF_CELLS_PER_PLAYER; i++) {
+			for (int j = startingPositionY; j  < startingPositionY + NUMBER_OF_CELLS_PER_PLAYER; j++) {
+				if (i < 15 && j < 15) {
+					cellMatrix[i][j].owner = ownerNumber;
 				}
-				cellMatrix[i][j].owner = ownerNumber;
+
 			}
 		}
 	}
@@ -133,12 +132,15 @@ public class ContentGenerator: MonoBehaviour {
 				}
 				i++;	
 			}
-			this.occupyTerrain(owner, cellMatrix, chosenStartingPosition.x + NUMBER_OF_CELLS_PER_PLAYER + 2, chosenStartingPosition.y);
-			for(int k = 0; k < 16; k++){
-				for(int j = 0; j < 16; j++){
-					Debug.Log("cellMatrix[" + k + "][" + j + "].owner = " + cellMatrix[k][j].owner); 
-				}	
-			}
+			this.occupyTerrain(owner, ref cellMatrix, chosenStartingPosition.x, chosenStartingPosition.y);
+
+		}
+		for(int k = 0; k < 15; k++){
+			string matrix = "";
+			for(int j = 0; j < 15; j++){
+				matrix += " " + cellMatrix[k][j].owner + " "; 
+			}	
+			Debug.Log (matrix);
 		}
 		
 	}
