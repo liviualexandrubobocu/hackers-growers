@@ -1,10 +1,19 @@
-﻿<Properties StartupItem="Hackers.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Terrain.cs">
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Neighbours.cs">
     <Files>
-      <File FileName="Assets/Scripts/ContentGenerator.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ContentGenerator.cs" Line="57" Column="1" />
       <File FileName="Assets/Scripts/HexGrid.cs" Line="1" Column="1" />
       <File FileName="Assets/Scripts/Terrain.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Race.cs" Line="5" Column="2" />
+      <File FileName="Assets/Scripts/Player.cs" Line="95" Column="3" />
+      <File FileName="Assets/Scripts/HexMesh.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Building.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/HexCell.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Neighbours.cs" Line="22" Column="27" />
+      <File FileName="Assets/Scripts/KeyboardUtility.cs" Line="16" Column="12" />
+      <File FileName="Assets/Scripts/LifeForm.cs" Line="14" Column="2" />
+      <File FileName="Assets/Scripts/ControlBoard.cs" Line="19" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

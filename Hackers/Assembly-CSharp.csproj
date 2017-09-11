@@ -48,13 +48,17 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Building.cs" />
      <Compile Include="Assets\Scripts\ContentGenerator.cs" />
+     <Compile Include="Assets\Scripts\ControlBoard.cs" />
+     <Compile Include="Assets\Scripts\EmptyClass.cs" />
      <Compile Include="Assets\Scripts\HexCell.cs" />
      <Compile Include="Assets\Scripts\HexGrid.cs" />
      <Compile Include="Assets\Scripts\HexMapEditor.cs" />
      <Compile Include="Assets\Scripts\HexMesh.cs" />
      <Compile Include="Assets\Scripts\HexMetrics.cs" />
+     <Compile Include="Assets\Scripts\KeyboardUtility.cs" />
      <Compile Include="Assets\Scripts\LifeForm.cs" />
      <Compile Include="Assets\Scripts\Misc.cs" />
+     <Compile Include="Assets\Scripts\Neighbours.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Race.cs" />
      <Compile Include="Assets\Scripts\Terrain.cs" />

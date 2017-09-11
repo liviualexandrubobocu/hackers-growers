@@ -12,12 +12,6 @@ public class LifeForm
 
     int actionRadius { get; set; }
 
-	public enum LifeType
-	{
-		CarbonBased,
-		SilliconBased,
-		MetalBased
-	}
 
 	public LifeForm(
 		double lifeSpan,

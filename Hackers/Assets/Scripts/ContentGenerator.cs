@@ -23,25 +23,6 @@ public class ContentGenerator: MonoBehaviour {
 		public bool bottomRight;
 	}
 
-	public struct Neighbours{
-		public HexCell topRight;
-		public HexCell topLeft;
-		public HexCell middleRight;
-		public HexCell middleLeft;
-		public HexCell bottomRight;
-		public HexCell bottomLeft;
-
-		public Neighbours(HexCell tR, HexCell tL, HexCell mR, HexCell mL, HexCell bR, HexCell bL) {
-			topRight = tR;
-			topLeft = tL;
-			middleRight = mR;
-			middleLeft = mL;
-			bottomRight = bR;
-			bottomLeft = bL;
-		}
-
-	}
-
 	public const int NUMBER_OF_CELLS_PER_ROW = 10;
 	public const int NUMBER_OF_CELLS_OWNED_PER_ROW_BY_PLAYER = 6;
 	public const int SELECTED_POPULATION_PER_RACE = 30;
@@ -49,18 +30,31 @@ public class ContentGenerator: MonoBehaviour {
 	public const int NUMBER_OF_UNITS_BETWEEN_PLAYERS = 3;
 
 	//method that receives the position of a hex cell and returns its neighbours
-	Neighbours setInitialNeighbourPositions(HexCell[][] cellMatrix, int i, int j){
-		Neighbours neighbours = new Neighbours();
-		neighbours.topRight = cellMatrix[i-1][j+1];
-		neighbours.topLeft = cellMatrix[i-1][j];
-		neighbours.middleRight = cellMatrix[i][j+1];
-		neighbours.middleLeft = cellMatrix[i][j-1];
-		neighbours.bottomRight = cellMatrix[i+1][j+1];
-		neighbours.bottomLeft = cellMatrix[i+1][j];
-		return neighbours;
-	}
+//	Neighbours setInitialNeighbourPositions(HexCell[][] cellMatrix, int i, int j){
+//		Neighbours neighbours = new Neighbours();
+//		if (i % 2 == 0) {
+//			if (i - 1 >= 0 && j + 1 < cellMatrix.Length) {
+//				neighbours.topRight.x = i - 1;
+//				neighbours.topRight.y = j + 1;
+//			}
+//			if (i - 1 >= 0 && j < cellMatrix.Length) {
+//				neighbours.topLeft.x = i - 1;
+//				neighbours.topLeft.y = j;
+//			}
+//
+//			if (i - 1 >= 0 && j < cellMatrix.Length) {
+//				neighbours.middleRight.x = i - 1;
+//				neighbours.middleRight.y = j + 1;
+//			}
+//
+//			neighbours.middleRight = cellMatrix[i][j+1];
+//			neighbours.middleLeft = cellMatrix[i][j-1];
+//			neighbours.bottomRight = cellMatrix[i+1][j+1];
+//			neighbours.bottomLeft = cellMatrix[i+1][j];
+//		}
+//		return neighbours;
+//	}
 		
-
 	//add owner to terrain
 	public void occupyTerrain(int ownerNumber, ref HexCell[][] cellMatrix, int startingPositionX, int startingPositionY){
 		for (int i = startingPositionX; i < startingPositionX + NUMBER_OF_CELLS_PER_PLAYER; i++) {
